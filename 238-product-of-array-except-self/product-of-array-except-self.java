@@ -13,9 +13,9 @@ class Solution {
         int suffix = 1;
 
         // multiply suffix on the fly
-        for (int i = n - 1; i >= 0; i--) {
-            ans[i] = ans[i] * suffix;
-            suffix *= nums[i];
+        for (int i = n - 2; i >= 0; i--) {
+            suffix *= nums[i+1];
+            ans[i] *= suffix;
         }
 
         return ans;
