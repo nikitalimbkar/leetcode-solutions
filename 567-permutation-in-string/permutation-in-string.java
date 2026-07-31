@@ -1,32 +1,32 @@
 class Solution {
-    public boolean isFreqSame(int[] freq1, int[] freq2){
-        for(int i=0; i<26; i++){
-            if(freq1[i] != freq2[i]){
-                return false;
-            }
-        }
-        return true;
-    }
-    public boolean checkInclusion(String s1, String s2) {
+    public boolean checkInclusion(String s1, String s2){
+        if(s1.length() > s2.length()) return false;
+
         int[] freq = new int[26];
-        for(int i=0; i < s1.length(); i++){
+        int[] window = new int[26];
+
+        for(int i=0; i<s1.length(); i++){
             freq[s1.charAt(i) - 'a']++;
+            window[s2.charAt(i) - 'a']++;
         }
-        int windSize = s1.length();
+        if(matches(freq,window)) return true;
 
-        for(int i=0; i<s2.length(); i++){
-            int windIdx = 0, idx = i;
-            int[] windFreq = new int[26];
+        for(int i = s1.length(); i<s2.length(); i++){
+            window[s2.charAt(i) - 'a']++;
 
-            while(windIdx < windSize && idx < s2.length()){
-                windFreq[s2.charAt(idx) - 'a']++;
-                windIdx++;
-                idx++;
-            }
-            if(isFreqSame(freq,windFreq)){
-                return true;
-            }
+            window[s2.charAt(i - s1.length()) - 'a']--;
+            if(matches(freq,window)) return true;
         }
         return false;
     }
+    private boolean matches(int[] a, int[] b){
+        for(int i=0; i<26; i++){
+            if(a[i] != b[i]){
+                return false;
+            }
+            
+        }
+        return true;
+    }
+    
 }
